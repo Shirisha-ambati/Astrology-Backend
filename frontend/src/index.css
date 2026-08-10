@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-saffron-light: #ffb366;
+  --color-saffron: #FF9933;
+  --color-saffron-dark: #e68a00;
+  
+  --color-gold-light: #fde68a;
+  --color-gold: #D4AF37;
+  
+  --color-cream: #FFFDF9;
+  
+  --font-spiritual: 'Playfair Display', serif;
+  --font-sans: 'Outfit', sans-serif;
+  
+  --shadow-soft: 0 10px 40px -10px rgba(255, 153, 51, 0.15);
+  --shadow-divine: 0 20px 50px -20px rgba(212, 175, 55, 0.25);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-cream);
+    color: #1f2937;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Spiritual glassmorphism cards */
+  .glass-card {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: var(--shadow-soft);
+    border-radius: 1.5rem;
+    transition: all 300ms ease;
+  }
+  
+  .glass-card:hover {
+    box-shadow: var(--shadow-divine);
+    transform: translateY(-4px);
+    border-color: rgba(255, 153, 51, 0.2);
+  }
+
+  /* Mandala/Sacred patterns subtly overlaid */
+  .bg-mandala {
+    background-image: radial-gradient(circle at center, rgba(255, 153, 51, 0.05) 0%, transparent 70%);
+  }
+  
+  .btn-primary {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to right, var(--color-saffron), var(--color-saffron-dark));
+    color: white;
+    font-weight: 500;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 20px rgba(255, 153, 51, 0.3);
+    transition: all 300ms ease;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    box-shadow: 0 8px 30px rgba(255, 153, 51, 0.5);
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  .btn-secondary {
+    background-color: white;
+    color: var(--color-saffron);
+    font-weight: 500;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 153, 51, 0.3);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 300ms ease;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(255, 153, 51, 0.05);
+    transform: translateY(-2px);
+    border-color: var(--color-saffron);
+  }
+}
+
+/* Floating animation for particles or accents */
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-15px) scale(1.05); }
+}
+
+@keyframes glowDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.75; }
+  50% { transform: translate3d(10px, -14px, 0) scale(1.08); opacity: 1; }
+}
+
+@keyframes softPulse {
+  0%, 100% { box-shadow: 0 18px 40px -20px rgba(255, 153, 51, 0.55); transform: scale(1); }
+  50% { box-shadow: 0 22px 48px -18px rgba(255, 153, 51, 0.8); transform: scale(1.02); }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(0.96); box-shadow: 0 18px 45px -28px rgba(77, 145, 163, 0.28); }
+  50% { transform: scale(1.06); box-shadow: 0 24px 55px -22px rgba(77, 145, 163, 0.42); }
+}
+
+@keyframes swarFlow {
+  0% { transform: translateX(-10%); }
+  50% { transform: translateX(105%); }
+  100% { transform: translateX(-10%); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite 3s;
+}
+
+.animate-glow-drift {
+  animation: glowDrift 9s ease-in-out infinite;
+}
+
+.animate-glow-drift-delayed {
+  animation: glowDrift 10s ease-in-out infinite 2.5s;
+}
+
+.animate-soft-pulse {
+  animation: softPulse 3.4s ease-in-out infinite;
+}
+
+.animate-breathe {
+  animation: breathe 4.8s ease-in-out infinite;
+}
+
+.animate-swar-flow {
+  animation: swarFlow 6s ease-in-out infinite;
+}
+
+/* Smooth gradient text */
+.text-gradient {
+  background-image: linear-gradient(to bottom right, var(--color-saffron), var(--color-gold));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Custom Scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-saffron); 
+}
