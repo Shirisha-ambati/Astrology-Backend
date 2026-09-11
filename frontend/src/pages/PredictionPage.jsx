@@ -5,6 +5,7 @@ import { Heart, Sparkles } from 'lucide-react';
 import { AssetImage, Breadcrumb } from '../components/shared/PageElements';
 import { requireKundli } from '../lib/kundliStore';
 import { articles } from '../data/siteContent';
+import { apiClient } from '../lib/api';
 
 const Motion = motion;
 
@@ -12,12 +13,12 @@ const pageCopy = {
   Love: {
     title: 'Love Predictions',
     intro: 'Personalised relationship guidance from your completed Kundli.',
-    endpoint: '/api/love',
+    endpoint: '/love',
   },
   Marriage: {
     title: 'Marriage Predictions',
     intro: 'Personalised marriage guidance from your completed Kundli.',
-    endpoint: '/api/marriage',
+    endpoint: '/marriage',
   },
 };
 
@@ -44,7 +45,7 @@ export default function PredictionPage({ type, t }) {
     const controller = new AbortController();
     (async () => {
       try {
-        const { data } = await axios.get(copy.endpoint, { signal: controller.signal, withCredentials: true });
+        const { data } = await apiClient.get(copy.endpoint, { signal: controller.signal });
         setPrediction(data);
       } catch (requestError) {
         if (!axios.isCancel(requestError) && requestError.name !== 'CanceledError') {

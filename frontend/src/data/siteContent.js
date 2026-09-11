@@ -11,80 +11,223 @@ export const kundliNav = [
 ];
 
 export const offerings = [
-  { icon: React.createElement(Star), title: 'Daily Horoscope', desc: 'Personalized daily cosmic guidance.' },
-  { icon: React.createElement(Map), title: 'Kundli Chart', desc: 'Deep astrological birth analysis.' },
-  { icon: React.createElement(Activity), title: 'Numerology', desc: 'Discover your life path numbers.' },
-  { icon: React.createElement(Brain), title: 'Astro-Neuro', desc: 'Where energy meets mind intelligence.' },
-  { icon: React.createElement(Wind), title: 'Swar Vigyan', desc: 'Master your breath and timing.' },
-  { icon: React.createElement(ShoppingBag), title: 'Healing Shop', desc: 'Genuine rudraksha & gemstones.' }
+  { icon: React.createElement(Star),       title: 'Daily Horoscope', desc: 'Personalized daily cosmic guidance.',        route: 'Horoscope' },
+  { icon: React.createElement(Map),        title: 'Kundli Chart',    desc: 'Deep astrological birth analysis.',          route: 'Kundli' },
+  { icon: React.createElement(Activity),   title: 'Numerology',      desc: 'Discover your life path numbers.',           route: 'Numerology' },
+  { icon: React.createElement(Brain),      title: 'Astro-Neuro',     desc: 'Where energy meets mind intelligence.',      route: 'Astro-Neuro' },
+  { icon: React.createElement(Wind),       title: 'Swar Vigyan',     desc: 'Master your breath and timing.',             route: 'Swar Science' },
+  { icon: React.createElement(ShoppingBag),title: 'Healing Shop',    desc: 'Genuine rudraksha & gemstones.',             route: 'Shop' }
 ];
 
 export const products = [
-  { name: 'Nepalese 5 Mukhi Rudraksha', price: 'Rs 2,100', image: 'https://source.unsplash.com/800x800/?rudraksha,beads' },
-  { name: 'Amethyst Healing Bracelet', price: 'Rs 1,450', image: 'https://source.unsplash.com/800x800/?amethyst,bracelet' },
-  { name: 'Sri Yantra Gold Plated', price: 'Rs 3,500', image: 'https://source.unsplash.com/800x800/?yantra,spiritual' },
-  { name: 'Clear Quartz Crystal Point', price: 'Rs 950', image: 'https://source.unsplash.com/800x800/?clear,quartz,crystal' }
+  { 
+    id: 'ruby-13-40',
+    name: 'Indian Ruby Gemstone 13.40 Carat',
+    carat: '13.40 Carat',
+    ratti: '14.88 Ratti',
+    price: 'Rs 16,080',
+    originalPrice: 'Rs 20,100',
+    savings: 'You save Rs 4,020.00',
+    category: 'Ruby',
+    origin: 'Indian',
+    planet: 'Sun',
+    tag: 'Govt Certified',
+    certified: true,
+    image: '/images/products/ruby-gemstone.png',
+    description: 'Natural untreated Indian Ruby gemstone with deep red brilliance. Certified by Govt. Lab (IGI/IEGL). Associated with leadership, vitality, and authority.'
+  },
+  { 
+    id: 'ruby-11-50',
+    name: 'Indian Ruby Gemstone 11.50 Carat',
+    carat: '11.50 Carat',
+    ratti: '12.77 Ratti',
+    price: 'Rs 13,800',
+    originalPrice: 'Rs 17,250',
+    savings: 'You save Rs 3,450.00',
+    category: 'Ruby',
+    origin: 'Indian',
+    planet: 'Sun',
+    tag: 'Hot Seller',
+    certified: true,
+    image: '/images/products/ruby-gemstone.png',
+    description: 'Unheated natural Ruby gemstone. Strengthens confidence, social prestige, and willpower.'
+  },
+  { 
+    id: 'ruby-9-40',
+    name: 'Burma Ruby Gemstone 9.40 Carat',
+    carat: '9.40 Carat',
+    ratti: '10.44 Ratti',
+    price: 'Rs 11,280',
+    originalPrice: 'Rs 14,100',
+    savings: 'You save Rs 2,820.00',
+    category: 'Ruby',
+    origin: 'Burma',
+    planet: 'Sun',
+    tag: 'Govt Certified',
+    certified: true,
+    image: '/images/products/ruby-gemstone.png',
+    description: 'Pigeon blood red luster Burma Ruby gemstone. Free Ritual Energy Blessing included.'
+  },
+  { 
+    id: 'emerald-6-50',
+    name: 'Zambian Emerald Gemstone 6.50 Carat',
+    carat: '6.50 Carat',
+    ratti: '7.22 Ratti',
+    price: 'Rs 18,500',
+    originalPrice: 'Rs 22,000',
+    savings: 'You save Rs 3,500.00',
+    category: 'Emerald',
+    origin: 'Zambian',
+    planet: 'Mercury',
+    tag: 'Govt Certified',
+    certified: true,
+    image: '/images/products/emerald-gemstone.png',
+    description: 'Deep green natural Zambian Emerald gemstone. Enhances intelligence, speech, business success, and communication.'
+  }
 ];
 
 export const shopCategories = [
   {
-    title: 'Rudraksha Collection',
-    description: 'Sacred beads for protection, grounding, and spiritual discipline.',
+    title: 'Natural Ruby Gemstones',
+    categoryKey: 'Ruby',
+    description: 'Admirably rich red natural rubies associated with the Sun. Brings leadership, authority, vitality, and fame.',
     items: [
-      { name: 'Nepalese 5 Mukhi Rudraksha', price: 'Rs 2,100', tag: 'Best Seller', image: 'https://source.unsplash.com/800x800/?rudraksha,beads' },
-      { name: '7 Mukhi Prosperity Rudraksha', price: 'Rs 2,850', tag: 'Abundance', image: 'https://source.unsplash.com/800x800/?prayer,beads' },
-      { name: '9 Mukhi Shakti Rudraksha', price: 'Rs 3,900', tag: 'Protection', image: 'https://source.unsplash.com/800x800/?spiritual,beads' },
-      { name: '11 Mukhi Hanuman Rudraksha', price: 'Rs 4,250', tag: 'Strength', image: 'https://source.unsplash.com/800x800/?meditation,beads' }
+      {
+        id: 'ruby-13-40',
+        name: 'Indian Ruby 13.40 Carat',
+        carat: '13.40 Carat',
+        ratti: '14.88 Ratti',
+        price: 'Rs 16,080',
+        originalPrice: 'Rs 20,100',
+        savings: 'You save Rs 4,020.00',
+        category: 'Ruby',
+        origin: 'Indian',
+        planet: 'Sun',
+        tag: 'Govt Certified',
+        certified: true,
+        image: '/images/products/ruby-gemstone.png',
+        description: 'Natural untreated Indian Ruby gemstone with deep red brilliance. Certified by Govt. Lab (IGI/IEGL).'
+      },
+      {
+        id: 'ruby-11-50',
+        name: 'Indian Ruby 11.50 Carat',
+        carat: '11.50 Carat',
+        ratti: '12.77 Ratti',
+        price: 'Rs 13,800',
+        originalPrice: 'Rs 17,250',
+        savings: 'You save Rs 3,450.00',
+        category: 'Ruby',
+        origin: 'Indian',
+        planet: 'Sun',
+        tag: 'Top Rated',
+        certified: true,
+        image: '/images/products/ruby-gemstone.png',
+        description: 'Unheated natural Ruby gemstone. Strengthens confidence, social prestige, and willpower.'
+      },
+      {
+        id: 'ruby-9-40',
+        name: 'Burma Ruby 9.40 Carat',
+        carat: '9.40 Carat',
+        ratti: '10.44 Ratti',
+        price: 'Rs 11,280',
+        originalPrice: 'Rs 14,100',
+        savings: 'You save Rs 2,820.00',
+        category: 'Ruby',
+        origin: 'Burma',
+        planet: 'Sun',
+        tag: 'Rare Choice',
+        certified: true,
+        image: '/images/products/ruby-gemstone.png',
+        description: 'Pigeon blood red luster Burma Ruby gemstone. Free Ritual Energy Blessing included.'
+      },
+      {
+        id: 'ruby-6-10',
+        name: 'Mozambique Ruby 6.10 Carat',
+        carat: '6.10 Carat',
+        ratti: '6.77 Ratti',
+        price: 'Rs 7,320',
+        originalPrice: 'Rs 9,150',
+        savings: 'You save Rs 1,830.00',
+        category: 'Ruby',
+        origin: 'Mozambique',
+        planet: 'Sun',
+        tag: 'Best Value',
+        certified: true,
+        image: '/images/products/ruby-gemstone.png',
+        description: 'High transparency Mozambique Ruby for administrative success, governance, and fame.'
+      }
     ]
   },
   {
-    title: 'Healing Crystals',
-    description: 'Charged stones and crystal tools for calm, clarity, and energy balance.',
+    title: 'Natural Emerald & Sapphires',
+    categoryKey: 'Emerald',
+    description: 'Certified gemstones for intellect, prosperity, and planetary balance.',
     items: [
-      { name: 'Clear Quartz Crystal Point', price: 'Rs 950', tag: 'Clarity', image: 'https://source.unsplash.com/800x800/?clear,quartz,crystal' },
-      { name: 'Rose Quartz Heart Stone', price: 'Rs 780', tag: 'Love', image: 'https://source.unsplash.com/800x800/?rose,quartz' },
-      { name: 'Black Tourmaline Shield Set', price: 'Rs 1,650', tag: 'Grounding', image: 'https://source.unsplash.com/800x800/?black,tourmaline,crystal' },
-      { name: 'Selenite Charging Wand', price: 'Rs 1,100', tag: 'Purify', image: 'https://source.unsplash.com/800x800/?selenite,crystal' }
+      {
+        id: 'emerald-6-50',
+        name: 'Zambian Emerald 6.50 Carat',
+        carat: '6.50 Carat',
+        ratti: '7.22 Ratti',
+        price: 'Rs 18,500',
+        originalPrice: 'Rs 22,000',
+        savings: 'You save Rs 3,500.00',
+        category: 'Emerald',
+        origin: 'Zambian',
+        planet: 'Mercury',
+        tag: 'Govt Certified',
+        certified: true,
+        image: '/images/products/emerald-gemstone.png',
+        description: 'Deep green natural Zambian Emerald gemstone. Enhances intelligence, speech, business success, and communication.'
+      },
+      {
+        id: 'yellow-sapphire-7-2',
+        name: 'Ceylon Yellow Sapphire 7.20 Carat',
+        carat: '7.20 Carat',
+        ratti: '8.00 Ratti',
+        price: 'Rs 24,000',
+        originalPrice: 'Rs 28,500',
+        savings: 'You save Rs 4,500.00',
+        category: 'Yellow Sapphire',
+        origin: 'Sri Lanka (Ceylon)',
+        planet: 'Jupiter',
+        tag: 'Premium Quality',
+        certified: true,
+        image: '/images/products/citrine-bracelet.png',
+        description: 'Vivid yellow Sapphire gemstone for spiritual growth, financial prosperity, and marriage harmony.'
+      }
+    ]
+  },
+  {
+    title: 'Rudraksha Collection',
+    categoryKey: 'Rudraksha',
+    description: 'Sacred beads for protection, grounding, and spiritual discipline.',
+    items: [
+      { name: 'Nepalese 5 Mukhi Rudraksha', price: 'Rs 2,100', originalPrice: 'Rs 2,600', savings: 'You save Rs 500', tag: 'Best Seller', image: '/images/products/rudraksha.png', category: 'Rudraksha' },
+      { name: '7 Mukhi Prosperity Rudraksha', price: 'Rs 2,850', originalPrice: 'Rs 3,400', savings: 'You save Rs 550', tag: 'Abundance', image: '/images/products/rudraksha-7mukhi.png', category: 'Rudraksha' },
+      { name: '9 Mukhi Shakti Rudraksha', price: 'Rs 3,900', originalPrice: 'Rs 4,800', savings: 'You save Rs 900', tag: 'Protection', image: '/images/products/rudraksha-9mukhi.png', category: 'Rudraksha' },
+      { name: '11 Mukhi Hanuman Rudraksha', price: 'Rs 4,250', originalPrice: 'Rs 5,200', savings: 'You save Rs 950', tag: 'Strength', image: '/images/products/rudraksha-11mukhi.png', category: 'Rudraksha' }
     ]
   },
   {
     title: 'Bracelets & Wearables',
+    categoryKey: 'Crystal Bracelets',
     description: 'Daily spiritual wear designed for beauty, energy support, and intention.',
     items: [
-      { name: 'Amethyst Healing Bracelet', price: 'Rs 1,450', tag: 'Peace', image: 'https://source.unsplash.com/800x800/?amethyst,bracelet' },
-      { name: 'Citrine Wealth Bracelet', price: 'Rs 1,250', tag: 'Success', image: 'https://source.unsplash.com/800x800/?citrine,bracelet' },
-      { name: '7 Chakra Balance Bracelet', price: 'Rs 1,550', tag: 'Alignment', image: 'https://source.unsplash.com/800x800/?chakra,bracelet' },
-      { name: 'Tiger Eye Confidence Band', price: 'Rs 1,150', tag: 'Courage', image: 'https://source.unsplash.com/800x800/?tiger-eye,bracelet' }
+      { name: 'Amethyst Healing Bracelet', price: 'Rs 1,450', originalPrice: 'Rs 1,800', savings: 'You save Rs 350', tag: 'Peace', image: '/images/products/amethyst-bracelet.png', category: 'Crystal Bracelets' },
+      { name: 'Citrine Wealth Bracelet', price: 'Rs 1,250', originalPrice: 'Rs 1,600', savings: 'You save Rs 350', tag: 'Success', image: '/images/products/citrine-bracelet.png', category: 'Crystal Bracelets' },
+      { name: '7 Chakra Balance Bracelet', price: 'Rs 1,550', originalPrice: 'Rs 1,950', savings: 'You save Rs 400', tag: 'Alignment', image: '/images/products/chakra-bracelet.png', category: 'Crystal Bracelets' },
+      { name: 'Tiger Eye Confidence Band', price: 'Rs 1,150', originalPrice: 'Rs 1,450', savings: 'You save Rs 300', tag: 'Courage', image: '/images/products/tiger-eye-bracelet.png', category: 'Crystal Bracelets' }
     ]
   },
   {
-    title: 'Yantras & Ritual Tools',
+    title: 'Yantras & Sacred Geometry',
+    categoryKey: 'Yantras',
     description: 'Blessed yantras and puja essentials for sacred space and focused intention.',
     items: [
-      { name: 'Sri Yantra Gold Plated', price: 'Rs 3,500', tag: 'Sacred Geometry', image: 'https://source.unsplash.com/800x800/?yantra,mandala' },
-      { name: 'Lakshmi Kuber Yantra', price: 'Rs 2,400', tag: 'Prosperity', image: 'https://source.unsplash.com/800x800/?hindu,altar' },
-      { name: 'Copper Puja Thali Set', price: 'Rs 1,850', tag: 'Ritual', image: 'https://source.unsplash.com/800x800/?puja,plate' },
-      { name: 'Camphor Diffuser Lamp', price: 'Rs 1,200', tag: 'Purification', image: 'https://source.unsplash.com/800x800/?oil,lamp,ritual' }
-    ]
-  },
-  {
-    title: 'Gemstone Remedies',
-    description: 'Traditional gemstone suggestions inspired by planetary support and harmony.',
-    items: [
-      { name: 'Natural Ruby Pendant', price: 'Rs 4,800', tag: 'Sun Energy', image: 'https://source.unsplash.com/800x800/?ruby,pendant' },
-      { name: 'Yellow Sapphire Ring', price: 'Rs 6,500', tag: 'Jupiter', image: 'https://source.unsplash.com/800x800/?yellow,sapphire,ring' },
-      { name: 'Emerald Mercury Pendant', price: 'Rs 3,950', tag: 'Communication', image: 'https://source.unsplash.com/800x800/?emerald,pendant' },
-      { name: 'Moonstone Calm Pendant', price: 'Rs 2,250', tag: 'Moon', image: 'https://source.unsplash.com/800x800/?moonstone,pendant' }
-    ]
-  },
-  {
-    title: 'Incense & Aura Care',
-    description: 'Fragrant cleansing and aura-support tools for everyday spiritual routines.',
-    items: [
-      { name: 'Temple Sandalwood Incense', price: 'Rs 420', tag: 'Daily Ritual', image: 'https://source.unsplash.com/800x800/?incense,sticks' },
-      { name: 'Aura Cleansing Mist', price: 'Rs 890', tag: 'Refresh', image: 'https://source.unsplash.com/800x800/?essential-oil,spray' },
-      { name: 'White Sage Smudge Bundle', price: 'Rs 760', tag: 'Cleanse', image: 'https://source.unsplash.com/800x800/?sage,smudge' },
-      { name: 'Rose Attar Meditation Oil', price: 'Rs 980', tag: 'Heart Energy', image: 'https://source.unsplash.com/800x800/?attar,perfume,oil' }
+      { name: 'Sri Yantra Gold Plated', price: 'Rs 3,500', originalPrice: 'Rs 4,200', savings: 'You save Rs 700', tag: 'Sacred Geometry', image: '/images/products/sri-yantra.png', category: 'Yantras' },
+      { name: 'Lakshmi Kuber Yantra', price: 'Rs 2,400', originalPrice: 'Rs 3,000', savings: 'You save Rs 600', tag: 'Prosperity', image: '/images/products/sri-yantra.png', category: 'Yantras' },
+      { name: 'Clear Quartz Crystal Point', price: 'Rs 950', originalPrice: 'Rs 1,200', savings: 'You save Rs 250', tag: 'Clarity', image: '/images/products/clear-quartz.png', category: 'Yantras' },
+      { name: 'Selenite Charging Wand', price: 'Rs 1,100', originalPrice: 'Rs 1,400', savings: 'You save Rs 300', tag: 'Purify', image: '/images/products/selenite-wand.png', category: 'Yantras' }
     ]
   }
 ];

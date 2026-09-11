@@ -84,10 +84,16 @@ export default function Navbar({ page, onNavigate, t, session }) {
 
         <div className="hidden lg:flex items-center gap-3 xl:gap-5">
           {session ? (
-            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 bg-white/10 ${light ? 'text-gray-700 border-gray-200 bg-gray-50' : 'text-white'}`} title="Logged In">
+            <button
+              type="button"
+              id="account-chip-btn"
+              onClick={() => onNavigate('Account')}
+              className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-spiritual font-medium transition hover:border-saffron hover:text-saffron ${light ? 'border-gray-200 bg-gray-50 text-gray-700' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}
+              title="My Account"
+            >
               <User className="h-4 w-4" />
-              <span className="text-sm font-spiritual font-medium">{session.user?.full_name || 'Member'}</span>
-            </div>
+              <span>{session.user?.fullName || 'Member'}</span>
+            </button>
           ) : (
             <button type="button" onClick={() => onNavigate('Login')} className={`whitespace-nowrap text-sm xl:text-base font-spiritual font-medium hover:text-saffron ${page === 'Login' ? 'text-saffron' : light ? 'text-gray-700' : 'text-white'}`}>{t('nav.login')}</button>
           )}
@@ -125,10 +131,15 @@ export default function Navbar({ page, onNavigate, t, session }) {
               ))}
               <div className="flex flex-col gap-3 pt-2">
                 {session ? (
-                  <div className="flex items-center gap-2 text-gray-700 font-medium px-4 py-2 bg-gray-50 rounded-xl border border-gray-100">
+                  <button
+                    type="button"
+                    id="mobile-account-chip-btn"
+                    onClick={() => { setMobileOpen(false); onNavigate('Account'); }}
+                    className="flex items-center gap-2 rounded-xl border border-[#edd9b6] bg-gray-50 px-4 py-3 font-medium text-gray-700 hover:border-saffron hover:text-saffron"
+                  >
                     <User className="h-5 w-5" />
-                    <span>{session.user?.full_name || 'Member'}</span>
-                  </div>
+                    <span>{session.user?.fullName || 'Member'}</span>
+                  </button>
                 ) : (
                   <button type="button" onClick={() => { setMobileOpen(false); onNavigate('Login'); }} className="text-left font-medium text-gray-700">{t('nav.login')}</button>
                 )}

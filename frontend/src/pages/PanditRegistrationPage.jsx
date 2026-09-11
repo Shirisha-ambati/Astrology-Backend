@@ -173,7 +173,7 @@ export default function PanditRegistrationPage({ onNavigate }) {
                   <span className="mb-2 block text-sm font-medium text-gray-700">Gender</span>
                   <div className="rounded-2xl border border-[#edd9b6] bg-[#fffaf2] px-4 py-4">
                     <select name="gender" className="w-full bg-transparent text-gray-800 outline-none">
-                      <option>Select gender</option>
+                      <option value="">Select gender</option>
                       <option>Male</option>
                       <option>Female</option>
                       <option>Other</option>
@@ -247,7 +247,7 @@ export default function PanditRegistrationPage({ onNavigate }) {
                   <span className="mb-2 block text-sm font-medium text-gray-700">Specialization</span>
                   <div className="rounded-2xl border border-[#edd9b6] bg-[#fffaf2] px-4 py-4">
                     <select name="specialization" className="w-full bg-transparent text-gray-800 outline-none">
-                      <option>Select specialization</option>
+                      <option value="">Select specialization</option>
                       {specializations.map((item) => (
                         <option key={item}>{item}</option>
                       ))}
@@ -323,7 +323,7 @@ export default function PanditRegistrationPage({ onNavigate }) {
                   <span className="mb-2 block text-sm font-medium text-gray-700">Online / Offline / Both</span>
                   <div className="rounded-2xl border border-[#edd9b6] bg-[#fffaf2] px-4 py-4">
                     <select name="mode" className="w-full bg-transparent text-gray-800 outline-none">
-                      <option>Select mode</option>
+                      <option value="">Select mode</option>
                       <option>Online</option>
                       <option>Offline</option>
                       <option>Both</option>
@@ -345,7 +345,7 @@ export default function PanditRegistrationPage({ onNavigate }) {
                   <span className="mb-2 block text-sm font-medium text-gray-700">Free Consultation</span>
                   <div className="rounded-2xl border border-[#edd9b6] bg-[#fffaf2] px-4 py-4">
                     <select name="freeConsultation" className="w-full bg-transparent text-gray-800 outline-none">
-                      <option>Select option</option>
+                      <option value="">Select option</option>
                       <option>Yes</option>
                       <option>No</option>
                     </select>

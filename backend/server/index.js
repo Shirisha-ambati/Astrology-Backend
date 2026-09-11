@@ -10,6 +10,7 @@ import astrologyRoutes from "./routes/astrology.js";
 import matchingRoutes from "./routes/matching.js";
 import predictionRoutes from "./routes/predictions.js";
 import numerologyRoutes from "./routes/numerology.js";
+import userRoutes from "./routes/users.js";
 
 function listRoutes(stack, prefix = "") {
   return stack.flatMap((layer) => {
@@ -28,17 +29,28 @@ dotenv.config({ path: "./backend/.env" });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  process.env.FRONTEND_URL,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
+].filter(Boolean);
 
-// Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:4173"],
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("CORS origin is not allowed."));
+    },
     credentials: true,
   }),
 );
 app.use(express.json({ limit: "10mb" }));
 
-// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/pandits", panditRoutes);
@@ -47,8 +59,8 @@ app.use("/api/astrology", astrologyRoutes);
 app.use("/api/matching", matchingRoutes);
 app.use("/api", predictionRoutes);
 app.use("/api/numerology", numerologyRoutes);
+app.use("/api/users", userRoutes);
 
-// Health check
 app.get("/api/health", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
@@ -74,18 +86,22 @@ const registeredRoutes = [
   ...listRoutes(astrologyRoutes.stack, "/api/astrology"),
   ...listRoutes(predictionRoutes.stack, "/api"),
   ...listRoutes(numerologyRoutes.stack, "/api/numerology"),
+  ...listRoutes(userRoutes.stack, "/api/users"),
   "GET /api/health",
 ];
 console.log(
   `[VedAura] Registered Express routes:\n${registeredRoutes.join("\n")}`,
 );
 
-// 404 for unknown API routes
 app.use("/api", (req, res) => {
   res.status(404).json({ error: "API route not found." });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 VedAura API server running at http://localhost:${PORT}`);
-  console.log(`📡 Health check: http://localhost:${PORT}/api/health\n`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\nðŸš€ VedAura API server running at http://localhost:${PORT}`);
+    console.log(`ðŸ“¡ Health check: http://localhost:${PORT}/api/health\n`);
+  });
+}
+
+export default app;

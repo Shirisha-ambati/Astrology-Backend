@@ -16,6 +16,7 @@ import PanditDashboardPage from './pages/PanditDashboardPage';
 import PanditRegistrationPage from './pages/PanditRegistrationPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminPage from './pages/AdminPage';
+import AccountPage from './pages/AccountPage';
 import { getPageFromHash, routes } from './lib/routes';
 import { articles } from './data/siteContent';
 import { createTranslator } from './data/i18n';
@@ -86,7 +87,7 @@ function App() {
 
   let content = <HomePage onNavigate={navigate} t={t} />;
 
-  if (page === 'Horoscope') content = <HoroscopePage t={t} />;
+  if (page === 'Horoscope') content = <HoroscopePage onNavigate={navigate} t={t} />;
   if (page === 'Kundli') {
     content = (
       <KundliPage
@@ -109,6 +110,7 @@ function App() {
   if (page === 'Pandit Dashboard') content = <PanditDashboardPage onNavigate={navigate} />;
   if (page === 'Pandit Registration') content = <PanditRegistrationPage onNavigate={navigate} />;
   if (page === 'Admin Login') content = <AdminLoginPage onNavigate={navigate} />;
+  if (page === 'Account') content = <AccountPage onNavigate={navigate} />;
   if (page === 'Admin' && authLoading) {
     content = (
       <main className="min-h-screen bg-cream pt-32">

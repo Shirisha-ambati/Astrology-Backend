@@ -4,7 +4,7 @@ import { Moon, Sparkles, Stars, Sun } from 'lucide-react';
 import { horoscopeHeroUrl, zodiac } from '../data/siteContent';
 import { AssetImage, Breadcrumb, HeroAsset } from '../components/shared/PageElements';
 
-export default function HoroscopePage({ t }) {
+export default function HoroscopePage({ onNavigate, t }) {
   return (
     <main className="min-h-screen bg-white pb-20 pt-28 sm:pt-32">
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -33,7 +33,13 @@ export default function HoroscopePage({ t }) {
               <h1 className="mb-6 text-3xl font-bold text-black sm:text-4xl md:text-5xl">{t('horoscope.title')}</h1>
               <p className="mb-6 text-sm italic leading-7 text-gray-900 sm:text-base md:text-lg md:leading-8">&ldquo;{t('horoscope.quote')}&rdquo;</p>
               <p className="mb-8 text-base leading-8 text-gray-800 sm:text-lg md:text-[1.1rem] md:leading-9">{t('horoscope.description')}</p>
-              <button className="w-full rounded-2xl bg-[#ffbf00] px-6 py-4 text-lg font-medium text-black hover:bg-[#f0b300] sm:w-fit sm:px-8 sm:text-xl">{t('horoscope.consultation')}</button>
+              <button
+                type="button"
+                onClick={() => onNavigate?.('Pandit Registration')}
+                className="w-full rounded-2xl bg-[#ffbf00] px-6 py-4 text-lg font-medium text-black hover:bg-[#f0b300] transition-colors sm:w-fit sm:px-8 sm:text-xl"
+              >
+                {t('horoscope.consultation')}
+              </button>
             </div>
           </div>
         </motion.div>

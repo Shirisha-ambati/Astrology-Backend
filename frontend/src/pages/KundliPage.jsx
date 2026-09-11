@@ -5,6 +5,7 @@ import { CalendarDays } from 'lucide-react';
 import { kundliHeroUrl } from '../data/siteContent';
 import { Breadcrumb, HeroAsset } from '../components/shared/PageElements';
 import { saveKundli, takeKundliNotice } from '../lib/kundliStore';
+import { apiClient } from '../lib/api';
 
 const Motion = motion;
 
@@ -71,7 +72,7 @@ export default function KundliPage({
     const timeoutId = window.setTimeout(async () => {
       try {
         setIsPlaceLoading(true);
-        const response = await axios.get('/api/astrology/places', {
+        const response = await apiClient.get('/astrology/places', {
           params: { q: query },
           signal: controller.signal,
         });
@@ -162,7 +163,7 @@ export default function KundliPage({
 
     try {
       setIsLoading(true);
-      const response = await axios.get('/api/astrology/kundli', {
+      const response = await apiClient.get('/astrology/kundli', {
         params: {
           fullName: form.fullName,
           dob: form.dob,

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CalendarDays, Sparkles, Star, Heart, Briefcase, Sun, Moon, Zap, Hash } from 'lucide-react';
 import { Breadcrumb } from '../components/shared/PageElements';
 import { numerologyCards, astroNumberPlanetMap } from '../data/siteContent';
+import { apiClient } from '../lib/api';
 
 const fade = { hidden: { opacity: 0, y: 18 }, visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.06, duration: 0.5 } }) };
 
@@ -83,7 +83,7 @@ export default function NumerologyPage({ t }) {
     if (!name.trim() || !dob) { setError('Please enter your full name and date of birth.'); return; }
     try {
       setLoading(true);
-      const { data } = await axios.post('/api/numerology/calculate', { fullName: name.trim(), dob });
+      const { data } = await apiClient.post('/numerology/calculate', { fullName: name.trim(), dob });
       setReport(data);
       setActiveTab('overview');
       setTimeout(() => document.getElementById('num-results')?.scrollIntoView({ behavior: 'smooth' }), 100);

@@ -5,7 +5,15 @@
  * All API calls go through this module for consistency.
  */
 
-const API_BASE = '/api';
+import axios from 'axios';
+
+const API_ORIGIN = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/+$/, '') || '';
+const API_BASE = `${API_ORIGIN}/api`;
+
+export const apiClient = axios.create({
+  baseURL: API_BASE,
+  withCredentials: true,
+});
 
 async function request(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
@@ -141,6 +149,19 @@ export const adminApi = {
   deleteRegistration: (id) =>
     request(`/admin/registrations/${id}`, {
       method: 'DELETE',
+    }),
+};
+
+// ─── User Profile API ────────────────────────────────────────
+
+export const userApi = {
+  getMe: () =>
+    request('/users/me'),
+
+  updateMe: (data) =>
+    request('/users/me', {
+      method: 'PUT',
+      body: JSON.stringify(data),
     }),
 };
 

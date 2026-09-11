@@ -13,7 +13,8 @@ export const routes = {
   Login: '#/login',
   'Pandit Dashboard': '#/pandit-dashboard',
   Admin: '#/admin',
-  'Admin Login': '#/admin-login'
+  'Admin Login': '#/admin-login',
+  Account: '#/account'
 };
 
 export const hashToPage = Object.entries(routes).reduce((acc, [page, hash]) => {

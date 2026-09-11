@@ -1,17 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Brain, ChevronRight, Heart, MessageCircle, Phone, Star, UserPlus } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Award, Brain, CheckCircle2, ChevronRight, Clock, Heart, Info, Mail, MapPin, MessageCircle, Phone, PhoneCall, Star, UserPlus, X } from 'lucide-react';
 import { offerings, products } from '../data/siteContent';
-import { loadPanditRegistrations } from '../lib/pandits';
+import { loadPanditRegistrations, loadPanditRegistrationsSync } from '../lib/pandits';
 
 export default function HomePage({ onNavigate, t }) {
-  const [pandits, setPandits] = useState(() => loadPanditRegistrations());
+  const [pandits, setPandits] = useState(() => loadPanditRegistrationsSync());
+  const [selectedPandit, setSelectedPandit] = useState(null);
+  const [consultingPandit, setConsultingPandit] = useState(null);
 
   useEffect(() => {
-    const refreshPandits = () => setPandits(loadPanditRegistrations());
-    window.addEventListener('storage', refreshPandits);
-    return () => window.removeEventListener('storage', refreshPandits);
+    let isMounted = true;
+    const fetchPandits = async () => {
+      try {
+        const data = await loadPanditRegistrations();
+        if (isMounted && Array.isArray(data)) {
+          setPandits(data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch pandits:', err);
+      }
+    };
+
+    fetchPandits();
+
+    const handleRefresh = () => fetchPandits();
+    window.addEventListener('storage', handleRefresh);
+    window.addEventListener('vedaura-session-changed', handleRefresh);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('storage', handleRefresh);
+      window.removeEventListener('vedaura-session-changed', handleRefresh);
+    };
   }, []);
+
+  const formatArrayField = (val) => {
+    if (Array.isArray(val)) return val;
+    if (typeof val === 'string' && val.trim()) return val.split(',').map((s) => s.trim());
+    return [];
+  };
 
   const renderInitials = (fullName = '') => {
     const initials = fullName
@@ -65,16 +93,25 @@ export default function HomePage({ onNavigate, t }) {
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 sm:gap-8">
             {offerings.map((item, index) => (
-              <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card p-8 group">
+              <motion.button
+                key={index}
+                type="button"
+                onClick={() => onNavigate(item.route)}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="glass-card p-8 group text-left w-full cursor-pointer transition-shadow hover:shadow-[0_24px_60px_-30px_rgba(255,153,51,0.35)]"
+              >
                 <div className="w-14 h-14 bg-saffron/10 rounded-2xl flex items-center justify-center text-saffron mb-6 group-hover:bg-saffron group-hover:text-white transition-colors">
                   {item.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3 font-spiritual">{item.title}</h3>
                 <p className="text-gray-600 mb-4">{item.desc}</p>
-                <div className="flex items-center text-saffron font-medium text-sm">
-                  {t('home.explore')} <ChevronRight className="w-4 h-4 ml-1" />
+                <div className="flex items-center text-saffron font-medium text-sm group-hover:gap-2 transition-all">
+                  {t('home.explore')} <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </motion.div>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -133,23 +170,40 @@ export default function HomePage({ onNavigate, t }) {
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button type="button" className="rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:border-saffron hover:text-saffron">
+                        <button
+                          type="button"
+                          onClick={() => setConsultingPandit(pandit)}
+                          className="rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:border-saffron hover:text-saffron transition-colors"
+                        >
                           Chat
                         </button>
-                        <button type="button" className="inline-flex items-center rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:border-saffron hover:text-saffron">
+                        <button
+                          type="button"
+                          onClick={() => setConsultingPandit(pandit)}
+                          className="inline-flex items-center rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:border-saffron hover:text-saffron transition-colors"
+                        >
                           <Phone className="mr-2 h-4 w-4" />
                           Call
                         </button>
                       </div>
                     </div>
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {pandit.mode ? (
-                        <span className="rounded-full bg-saffron/10 px-3 py-1 text-xs font-semibold text-saffron">{pandit.mode}</span>
-                      ) : null}
-                      {pandit.freeConsultation === 'Yes' ? (
-                        <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Free Consultation</span>
-                      ) : null}
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-gray-100 pt-3">
+                      <div className="flex flex-wrap gap-2">
+                        {pandit.mode ? (
+                          <span className="rounded-full bg-saffron/10 px-3 py-1 text-xs font-semibold text-saffron">{pandit.mode}</span>
+                        ) : null}
+                        {pandit.freeConsultation === 'Yes' ? (
+                          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">Free Consultation</span>
+                        ) : null}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedPandit(pandit)}
+                        className="inline-flex items-center rounded-full bg-saffron px-4 py-1.5 text-xs font-bold text-white shadow-sm transition hover:bg-saffron/90"
+                      >
+                        Know More <Info className="ml-1.5 h-3.5 w-3.5" />
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -211,16 +265,31 @@ export default function HomePage({ onNavigate, t }) {
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {products.map((product) => (
-              <div key={product.name} className="group">
-                <div className="relative h-64 bg-cream rounded-2xl mb-4 overflow-hidden flex items-center justify-center">
-                  <div className="w-32 h-32 bg-white rounded-full shadow-soft flex items-center justify-center">
+              <div key={product.name} className="group cursor-pointer" onClick={() => onNavigate('Shop')}>
+                <div className="relative h-64 bg-cream rounded-2xl mb-4 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="hidden h-full w-full items-center justify-center">
                     <Star className="text-gold/50 w-12 h-12" />
                   </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
                 <h3 className="font-bold text-gray-900 font-spiritual text-lg">{product.name}</h3>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-saffron font-semibold">{product.price}</span>
-                  <button type="button" onClick={() => onNavigate('Shop')} className="text-gray-400 hover:text-red-500">
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onNavigate('Shop'); }}
+                    className="text-gray-400 hover:text-red-500 transition-colors"
+                    aria-label="Add to wishlist"
+                  >
                     <Heart className="w-5 h-5" />
                   </button>
                 </div>
@@ -229,6 +298,241 @@ export default function HomePage({ onNavigate, t }) {
           </div>
         </div>
       </section>
+
+      {/* Pandit Full Info Modal */}
+      {selectedPandit ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm sm:p-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-[2.5rem] border border-[#f0dfbf] bg-white shadow-2xl"
+          >
+            {/* Close Button — sits above the scroll area */}
+            <button
+              type="button"
+              onClick={() => setSelectedPandit(null)}
+              className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100/80 text-gray-500 hover:bg-saffron hover:text-white transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {/* Scrollable body */}
+            <div className="custom-scrollbar overflow-y-auto p-6 sm:p-8">
+
+              {/* Header Profile */}
+              <div className="mb-6 flex items-start gap-5">
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#FF9933_0%,#D4AF37_100%)] text-2xl font-bold text-white shadow-[0_16px_30px_-14px_rgba(255,153,51,0.7)]">
+                  {renderInitials(selectedPandit.fullName)}
+                </div>
+                <div className="min-w-0 flex-1 pr-8">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="font-spiritual text-2xl font-bold text-gray-900">{selectedPandit.fullName || 'Pandit'}</h3>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-0.5 text-xs font-semibold text-emerald-700">
+                      <CheckCircle2 className="h-3.5 w-3.5" /> Verified
+                    </span>
+                  </div>
+                  <p className="mt-1 text-base font-medium text-saffron">{selectedPandit.specialization || 'Spiritual Consultant'}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                    {selectedPandit.experience ? (
+                      <span className="inline-flex items-center gap-1">
+                        <Clock className="h-3.5 w-3.5 text-saffron" /> {selectedPandit.experience} Years Experience
+                      </span>
+                    ) : null}
+                    {[selectedPandit.city, selectedPandit.state, selectedPandit.country].filter(Boolean).length > 0 ? (
+                      <span className="inline-flex items-center gap-1">
+                        <MapPin className="h-3.5 w-3.5 text-saffron" /> {[selectedPandit.city, selectedPandit.state, selectedPandit.country].filter(Boolean).join(', ')}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6 border-t border-gray-100 pt-6">
+                {/* Bio */}
+                {selectedPandit.bio ? (
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-saffron">About / Bio</h4>
+                    <p className="mt-2 rounded-2xl bg-[#fffaf2] p-4 text-sm leading-6 text-gray-700 border border-[#f7e8ce]">
+                      {selectedPandit.bio}
+                    </p>
+                  </div>
+                ) : null}
+
+                {/* Grid Info */}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-gray-100 bg-gray-50/70 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400">Languages Known</p>
+                    <p className="mt-1 font-semibold text-gray-800">{selectedPandit.languages || 'Not specified'}</p>
+                  </div>
+                  <div className="rounded-2xl border border-gray-100 bg-gray-50/70 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400">Gender / DOB</p>
+                    <p className="mt-1 font-semibold text-gray-800">
+                      {[selectedPandit.gender, selectedPandit.dob ? selectedPandit.dob.split('T')[0] : ''].filter(Boolean).join(' • ') || 'Not specified'}
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-gray-100 bg-gray-50/70 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400">Contact Details</p>
+                    {selectedPandit.mobile ? (
+                      <p className="mt-1 flex items-center text-sm font-semibold text-gray-800">
+                        <Phone className="mr-2 h-4 w-4 text-saffron" /> {selectedPandit.mobile}
+                      </p>
+                    ) : null}
+                    {selectedPandit.email ? (
+                      <p className="mt-1 flex items-center text-sm font-semibold text-gray-800">
+                        <Mail className="mr-2 h-4 w-4 text-saffron" /> {selectedPandit.email}
+                      </p>
+                    ) : null}
+                    {!selectedPandit.mobile && !selectedPandit.email ? <p className="mt-1 text-sm text-gray-500">Contact on request</p> : null}
+                  </div>
+                  <div className="rounded-2xl border border-gray-100 bg-gray-50/70 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400">Full Address</p>
+                    <p className="mt-1 text-sm font-semibold text-gray-800">
+                      {selectedPandit.address || [selectedPandit.city, selectedPandit.state, selectedPandit.country].filter(Boolean).join(', ') || 'Not specified'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Services */}
+                {formatArrayField(selectedPandit.services).length > 0 ? (
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-saffron">Services Offered</h4>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {formatArrayField(selectedPandit.services).map((srv, i) => (
+                        <span key={i} className="rounded-full border border-saffron/20 bg-saffron/10 px-3.5 py-1.5 text-xs font-semibold text-saffron">
+                          {srv}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {/* Availability */}
+                <div className="rounded-2xl border border-gray-100 bg-[#fffdfa] p-4">
+                  <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-saffron">Availability &amp; Schedule</h4>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2 text-sm">
+                    <div>
+                      <span className="text-xs text-gray-500 font-medium">Available Days:</span>
+                      <p className="font-semibold text-gray-800">
+                        {formatArrayField(selectedPandit.availableDays).join(', ') || 'Monday - Sunday'}
+                      </p>
+                    </div>
+                    <div>
+                      <span className="text-xs text-gray-500 font-medium">Time Slots:</span>
+                      <p className="font-semibold text-gray-800">{selectedPandit.timeSlots || '10 AM - 6 PM'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pricing */}
+                <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#f5e3bf] bg-[#fff8eb] p-5">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-saffron">Consultation Fee</p>
+                    <p className="mt-1 text-2xl font-bold text-gray-900">
+                      {selectedPandit.price ? `Rs ${selectedPandit.price} / Session` : 'Price on Request'}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-600">Mode: {selectedPandit.mode || 'Online / Offline'}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {selectedPandit.freeConsultation === 'Yes' ? (
+                      <span className="rounded-full bg-emerald-100 px-4 py-2 text-xs font-bold text-emerald-700 shadow-sm">
+                        Free First Consultation Available
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+
+                {/* Certifications */}
+                {formatArrayField(selectedPandit.certifications).length > 0 ? (
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-saffron">Certifications</h4>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {formatArrayField(selectedPandit.certifications).map((cert, i) => (
+                        <span key={i} className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-700">
+                          <Award className="h-3.5 w-3.5 text-gold" /> {cert}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {/* Action Buttons */}
+                <div className="flex items-center justify-end gap-3 border-t border-gray-100 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPandit(null)}
+                    className="rounded-full border border-gray-200 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConsultingPandit(selectedPandit)}
+                    className="inline-flex items-center gap-2 rounded-full bg-saffron px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-saffron/90 transition-colors"
+                  >
+                    <MessageCircle className="h-4 w-4" /> Book Consultation
+                  </button>
+                </div>
+              </div>
+
+            </div>{/* end scrollable body */}
+          </motion.div>
+        </div>
+      ) : null}
+
+      {/* Pandit Consultation Modal ("Talk to Pandit") */}
+      <AnimatePresence>
+        {consultingPandit && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-md rounded-[2.5rem] border border-amber-200 bg-white p-6 text-center shadow-2xl"
+            >
+              <button
+                type="button"
+                onClick={() => setConsultingPandit(null)}
+                className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-saffron hover:text-white transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-saffron">
+                <PhoneCall className="h-8 w-8 text-saffron" />
+              </div>
+
+              <h3 className="font-spiritual text-2xl font-bold text-gray-900">
+                Talk to {consultingPandit.fullName ? `Pandit ${consultingPandit.fullName}` : 'Pandit'}
+              </h3>
+              <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                Have questions about astrology, horoscope, remedies, or consultation? Call or message directly.
+              </p>
+
+              <div className="mt-6 rounded-2xl bg-amber-50 p-4 border border-amber-200 text-amber-950 font-bold text-lg flex items-center justify-center gap-2">
+                <Phone className="h-5 w-5 text-saffron" />
+                <span>{consultingPandit.mobile || '+91 98701 17452'}</span>
+              </div>
+
+              <div className="mt-6 flex gap-3">
+                <a
+                  href={`tel:${(consultingPandit.mobile || '+91 98701 17452').replace(/\s+/g, '')}`}
+                  className="btn-primary flex-1 py-3 text-sm font-bold text-center flex items-center justify-center gap-2"
+                >
+                  Call Now
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setConsultingPandit(null)}
+                  className="rounded-full border border-gray-300 px-5 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
