@@ -12,7 +12,7 @@ import {
 import { Breadcrumb } from '../components/shared/PageElements';
 
 export default function AstroNumerologyPage({ t }) {
-  const astroHeroVideo = '/astro-numerology-mandala.mp4?v=202604071454';
+  const astroHeroVideo = 'https://media.githubusercontent.com/media/Shirisha-ambati/Astrology/main/frontend/public/astro-numerology-mandala.mp4';
   const [form, setForm] = useState({ fullName: '', dob: '', gender: '', timeOfBirth: '', placeOfBirth: '' });
   const [showReport, setShowReport] = useState(false);
 

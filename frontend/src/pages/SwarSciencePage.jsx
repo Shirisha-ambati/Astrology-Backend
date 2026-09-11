@@ -17,7 +17,7 @@ export default function SwarSciencePage({ t }) {
           <Breadcrumb currentPage={t('nav.swar')} homeLabel={t('breadcrumb.home')} />
           <section className="relative min-h-[420px] overflow-hidden rounded-[2.2rem] border border-[#d8e7e8] bg-[#dfeef3] shadow-[0_24px_80px_-45px_rgba(77,145,163,0.28)] sm:min-h-[500px] md:min-h-[560px]">
             <video autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover opacity-95">
-              <source src="/Meditating_figure_forming_202604071413.mp4" type="video/mp4" />
+              <source src="https://media.githubusercontent.com/media/Shirisha-ambati/Astrology/main/frontend/public/Meditating_figure_forming_202604071413.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-black/20"></div>
             <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(198,226,234,0.18)_0%,rgba(214,235,240,0.08)_40%,rgba(247,222,184,0.16)_100%)]"></div>

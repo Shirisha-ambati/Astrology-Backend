@@ -57,7 +57,7 @@ export default function HomePage({ onNavigate, t }) {
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden pb-20 pt-28 sm:pt-32 lg:pb-32 lg:pt-48">
         <div className="absolute inset-0 overflow-hidden">
           <video autoPlay muted loop playsInline className="w-full h-full object-cover absolute inset-0">
-            <source src="/Video Project 1.mp4" type="video/mp4" />
+            <source src="https://media.githubusercontent.com/media/Shirisha-ambati/Astrology/main/frontend/public/Video%20Project%201.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
